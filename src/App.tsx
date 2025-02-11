@@ -4,6 +4,7 @@ import OptionsTable from "./components/StockInfo/OptionsTable";
 import PriceLineChart from "./components/StockInfo/PriceLineChart";
 import { BasicStockInfo } from "./components/StockInfo/stock.types";
 import StockHeader from "./components/StockInfo/StockHeader";
+import { Input } from "./components/ui/input";
 
 function App() {
   const mockStock: BasicStockInfo = {
@@ -22,19 +23,29 @@ function App() {
   };
 
   return (
-    <MaxWidthWrapper>
-      <StockHeader
-        className="mt-8"
-        abbreviation={mockStock.abbreviation}
-        fullName={mockStock.fullName}
-        closingPrice={mockStock.closingPrice}
-        preMarketPrice={mockStock.preMarketPrice}
-      />
-      <div className="mt-8">
-        <PriceLineChart />
-      </div>
-      <OptionsTable className="mt-8 mb-20" />
-    </MaxWidthWrapper>
+    <div className="font-inter">
+      <MaxWidthWrapper className="py-4 border-b-1 w-full mb-8 ">
+        <nav className="font-inter flex justify-between items-center">
+          <a href="/">
+            <h1 className="font-bold text-2xl text-[#219ebc]">Stock Trader</h1>
+          </a>
+          <Input placeholder="Search for stocks" className="w-[200px]" />
+        </nav>
+      </MaxWidthWrapper>
+      <MaxWidthWrapper>
+        <StockHeader
+          className="mt-8"
+          abbreviation={mockStock.abbreviation}
+          fullName={mockStock.fullName}
+          closingPrice={mockStock.closingPrice}
+          preMarketPrice={mockStock.preMarketPrice}
+        />
+        <div className="mt-8">
+          <PriceLineChart />
+        </div>
+        <OptionsTable className="mt-8 mb-20" />
+      </MaxWidthWrapper>
+    </div>
   );
 }
 

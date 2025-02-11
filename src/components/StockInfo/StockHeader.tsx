@@ -18,7 +18,7 @@ const StockHeader = ({
     <div className={className}>
       <div className="flex flex-col items-start gap-2 md:items-center md:gap-4 md:flex-row">
         <Tag label={abbreviation} />
-        <h1 className="font-medium uppercase text-4xl mb-1">{fullName}</h1>
+        <h1 className="font-medium uppercase text-4xl">{fullName}</h1>
       </div>
       <Separator className="my-2" />
       <div className="flex flex-col items-start gap-6 md:flex-row md:gap-12 md:items-center">

@@ -65,7 +65,7 @@ const PriceLineChart = () => {
   return (
     <div>
       <div className="flex justify-between items-center space-x-2 mb-4 md:max-w-2/3">
-        <h2 className="text-lg font-medium">Price chart</h2>
+        <h2 className="text-lg font-bold text-[#191919]">Price chart</h2>
         <div className="space-x-2">
           {["7d", "1m", "6m"].map((range) => (
             <button

@@ -34,8 +34,8 @@ type OptionsFilter = {
 
 const optionsFilter: OptionsFilter = {
   deltaRange: {
-    min: -0.5,
-    max: 0.5,
+    min: -1,
+    max: 1,
   },
   expirationRange: {
     min: 0,
@@ -192,8 +192,10 @@ const OptionsTable = ({ className }: { className: string }) => {
       <div className="flex justify-end mb-2">
         <Popover>
           <div className="flex justify-between items-center w-full">
-            <h2 className="text-xl font-bold">List of options</h2>
-            <PopoverTrigger className="cursor-pointer bg-white border-1 px-4 py-1.5 hover:opacity-75 font-medium rounded-sm">
+            <h2 className="text-xl font-bold text-[#191919]">
+              List of options
+            </h2>
+            <PopoverTrigger className="cursor-pointer text-sm bg-white border-1 px-4 py-1.5 hover:opacity-75 font-medium rounded-sm">
               Filter
             </PopoverTrigger>
           </div>
