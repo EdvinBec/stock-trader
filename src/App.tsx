@@ -1,6 +1,7 @@
 import "./App.css";
 import MaxWidthWrapper from "./components/MaxWidthWrapper";
-import PriceLineChart from "./components/StockInfo/AreaLinearChart";
+import OptionsTable from "./components/StockInfo/OptionsTable";
+import PriceLineChart from "./components/StockInfo/PriceLineChart";
 import { BasicStockInfo } from "./components/StockInfo/stock.types";
 import StockHeader from "./components/StockInfo/StockHeader";
 
@@ -32,6 +33,7 @@ function App() {
       <div className="mt-8">
         <PriceLineChart />
       </div>
+      <OptionsTable className="mt-8 mb-20" />
     </MaxWidthWrapper>
   );
 }
