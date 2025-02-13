@@ -5,8 +5,15 @@ export type StockPriceType = {
 };
 
 export type BasicStockInfo = {
-  abbreviation: string;
-  fullName: string;
+  ticker: string;
+  stockName: string;
   closingPrice: StockPriceType;
   preMarketPrice: StockPriceType;
+};
+
+export type StockHistoricalPrices = {
+  date: string;
+  openPrice: string;
+  highPriec: string;
+  lowPrice: string;
 };

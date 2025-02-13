@@ -5,62 +5,41 @@ import {
   ChartContainer,
   ChartTooltip,
 } from "@/components/ui/chart";
-
-const generateChartData = () => {
-  const startDate = new Date();
-  startDate.setMonth(startDate.getMonth() - 6);
-  startDate.setDate(1);
-
-  const endDate = new Date();
-  const chartData = [];
-  let price = 400;
-
-  for (
-    let date = new Date(startDate);
-    date <= endDate;
-    date.setDate(date.getDate() + 1)
-  ) {
-    const baseFluctuation = (Math.random() - 0.5) * 15;
-    const periodicFluctuation = Math.sin(date.getDate() / 3) * 10;
-    price += baseFluctuation + periodicFluctuation;
-    price = Math.max(price, 50);
-
-    const high = price + Math.random() * 10;
-    const low = price - Math.random() * 10;
-
-    chartData.push({
-      date: date.toISOString().split("T")[0],
-      price: parseFloat(price.toFixed(2)),
-      high: parseFloat(high.toFixed(2)),
-      low: parseFloat(low.toFixed(2)),
-    });
-  }
-  return chartData;
-};
-
-const fullChartData = generateChartData();
-
-const filterData = (range: string) => {
-  const endDate = new Date();
-  const startDate = new Date();
-
-  if (range === "7d") startDate.setDate(endDate.getDate() - 7);
-  else if (range === "1m") startDate.setMonth(endDate.getMonth() - 1);
-  else if (range === "6m") startDate.setMonth(endDate.getMonth() - 6);
-
-  return fullChartData.filter(
-    (data) => new Date(data.date) >= startDate && new Date(data.date) <= endDate
-  );
-};
+import { StockHistoricalPrices } from "./stock.types";
 
 const chartConfig = {
   price: { label: "Price", color: "hsl(var(--chart-1))" },
   date: { label: "Date", color: "hsl(var(--chart-1))" },
 } satisfies ChartConfig;
 
-const PriceLineChart = () => {
+const PriceLineChart = ({
+  stockHistoricalPrices,
+}: {
+  stockHistoricalPrices: StockHistoricalPrices[];
+}) => {
   const [timeRange, setTimeRange] = useState("6m");
-  const chartData = filterData(timeRange);
+  const chartData: StockHistoricalPrices[] = Array.isArray(
+    stockHistoricalPrices
+  )
+    ? stockHistoricalPrices
+    : [];
+  console.log(chartData);
+
+  const filterData = (range: string) => {
+    const endDate = new Date();
+    const startDate = new Date();
+
+    if (range === "7d") startDate.setDate(endDate.getDate() - 7);
+    else if (range === "1m") startDate.setMonth(endDate.getMonth() - 1);
+    else if (range === "6m") startDate.setMonth(endDate.getMonth() - 6);
+
+    return chartData.filter(
+      (data) =>
+        new Date(data.date) >= startDate && new Date(data.date) <= endDate
+    );
+  };
+
+  const filteredData = filterData(timeRange);
 
   return (
     <div>
@@ -82,7 +61,7 @@ const PriceLineChart = () => {
       </div>
 
       <ChartContainer className="md:max-w-2/3" config={chartConfig}>
-        <LineChart accessibilityLayer data={chartData}>
+        <LineChart accessibilityLayer data={filteredData}>
           <CartesianGrid vertical={true} />
           <XAxis
             dataKey="date"
@@ -102,7 +81,8 @@ const PriceLineChart = () => {
             content={({ active, payload }) => {
               if (!active || !payload || payload.length === 0) return null;
 
-              const { date, price, high, low } = payload[0].payload;
+              const { date, openPrice, highPrice, lowPrice } =
+                payload[0].payload;
 
               return (
                 <div className="text-sm bg-white px-3 py-2 border rounded-sm">
@@ -114,17 +94,17 @@ const PriceLineChart = () => {
                     })}
                   </span>
                   <br />
-                  <span>Price: ${price}</span>
+                  <span>Open price: ${openPrice}</span>
                   <br />
-                  <span className="text-[#008000]">High: ${high}</span>
+                  <span className="text-[#008000]">High: ${highPrice}</span>
                   <br />
-                  <span className="text-[#df2935]">Low: ${low}</span>
+                  <span className="text-[#df2935]">Low: ${lowPrice}</span>
                 </div>
               );
             }}
           />
           <Line
-            dataKey="price"
+            dataKey="openPrice"
             type="linear"
             stroke="#219ebc"
             strokeWidth={2}
