@@ -24,6 +24,7 @@ import {
 import { Button } from "./components/ui/button";
 import { toast } from "sonner";
 import { Toaster } from "./components/ui/sonner";
+import { useParams } from "react-router";
 
 function App() {
   const [basicStockInfo, setBasicStockInfo] = useState<BasicStockInfo>();
@@ -35,13 +36,15 @@ function App() {
   const [options, setOptions] = useState<StockOption[] | null>(null);
   const [isFetchingOptions, setIsFetchingOptions] = useState(false);
 
+  const { ticker } = useParams();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [stockInfoResponse, historicalPricesResponse] = await Promise.all(
           [
-            axios.get("https://localhost:7067/api/stock/MSFT"),
-            axios.get("https://localhost:7067/api/stock/MSFT/history"),
+            axios.get(`https://localhost:7067/api/stock/${ticker}`),
+            axios.get(`https://localhost:7067/api/stock/${ticker}/history`),
           ]
         );
 
@@ -89,7 +92,7 @@ function App() {
       setIsFetchingOptions(true);
 
       const response = await axios.get(
-        `https://localhost:7067/api/stock/MSFT/options?expirationMin=${expirationMin}&expirationMax=${expirationMax}&optionType=${optionType}&minPremium=${
+        `https://localhost:7067/api/stock/${ticker}/options?expirationMin=${expirationMin}&expirationMax=${expirationMax}&optionType=${optionType}&minPremium=${
           premiumMin ?? 0
         }` // Default minPremium to 0 if undefined
       );
