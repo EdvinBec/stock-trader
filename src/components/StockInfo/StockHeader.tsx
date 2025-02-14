@@ -29,22 +29,20 @@ const StockHeader = ({
             numberIncrease={closingPrice.numberIncrease}
             percentageIncrease={closingPrice.percentageIncrease}
             price={closingPrice.price}
+            date={closingPrice.date}
           />
-          <label className="text-sm">
-            At close: February 10 at 4:00:01 PM EST
-          </label>{" "}
-          {/*TO:DO change with real values */}
+          <label className="text-sm">{closingPrice?.date}</label>
         </div>
         <div>
-          <StockPrice
-            numberIncrease={preMarketPrice.numberIncrease}
-            percentageIncrease={preMarketPrice.percentageIncrease}
-            price={preMarketPrice.price}
-          />
-          <label className="text-sm">
-            Pre-Market: February 10 at 4:00:01 PM EST
-          </label>{" "}
-          {/*TO:DO change with real values */}
+          {preMarketPrice && (
+            <StockPrice
+              numberIncrease={preMarketPrice.numberIncrease}
+              percentageIncrease={preMarketPrice.percentageIncrease}
+              price={preMarketPrice.price}
+              date={preMarketPrice.date}
+            />
+          )}
+          <label className="text-sm">{preMarketPrice?.date}</label>
         </div>
       </div>
     </div>

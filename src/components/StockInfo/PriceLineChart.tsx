@@ -43,7 +43,7 @@ const PriceLineChart = ({
 
   return (
     <div>
-      <div className="flex justify-between items-center space-x-2 mb-4 md:max-w-2/3">
+      <div className="flex justify-between items-center space-x-2 mb-4">
         <h2 className="text-lg font-bold text-[#191919]">Price chart</h2>
         <div className="space-x-2">
           {["7d", "1m", "6m"].map((range) => (
@@ -60,7 +60,7 @@ const PriceLineChart = ({
         </div>
       </div>
 
-      <ChartContainer className="md:max-w-2/3" config={chartConfig}>
+      <ChartContainer config={chartConfig}>
         <LineChart accessibilityLayer data={filteredData}>
           <CartesianGrid vertical={true} />
           <XAxis
