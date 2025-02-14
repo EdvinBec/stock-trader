@@ -23,8 +23,9 @@ import {
 } from "./components/ui/select";
 import { Button } from "./components/ui/button";
 import { toast } from "sonner";
-import { Toaster } from "./components/ui/sonner";
 import { useParams } from "react-router";
+import NavigationBar from "./components/NavigationBar";
+import SearchForStock from "./components/SearchForStock";
 
 function App() {
   const [basicStockInfo, setBasicStockInfo] = useState<BasicStockInfo>();
@@ -35,6 +36,7 @@ function App() {
   const [optionsFilter, setOptionsFilter] = useState<OptionFilterCriteria>();
   const [options, setOptions] = useState<StockOption[] | null>(null);
   const [isFetchingOptions, setIsFetchingOptions] = useState(false);
+  const [noStockFoundError, setNoStockFoundError] = useState(false);
 
   const { ticker } = useParams();
 
@@ -49,18 +51,28 @@ function App() {
         );
 
         setBasicStockInfo(stockInfoResponse.data);
-        setStockHistoricalPrices(historicalPricesResponse.data.historicalData); // Adjust based on your API response structure
+        setStockHistoricalPrices(historicalPricesResponse.data.historicalData);
         setIsPageLoading(false);
         setIsChartLoading(false);
+        setNoStockFoundError(false); // Reset the error state if data is found
       } catch (error) {
-        console.log(error);
+        if (axios.isAxiosError(error)) {
+          // Check if the error is a 404
+          if (error.response?.status === 404) {
+            setNoStockFoundError(true); // Set the error state
+          } else {
+            console.error("Error fetching stock data:", error);
+          }
+        } else {
+          console.error("Unexpected error:", error);
+        }
         setIsPageLoading(false);
         setIsChartLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [ticker]); // Add `ticker` as a dependency
 
   const fetchOptions = async () => {
     try {
@@ -107,24 +119,26 @@ function App() {
 
   return (
     <>
-      <Toaster />
-
       {isPageLoading && (
         <div className="h-screen w-screen flex justify-center items-center">
-          <Loader className={`animate-spin`} />
+          <Loader className="animate-spin" />
         </div>
       )}
-      {!isPageLoading && (
+      {!isPageLoading && noStockFoundError && (
+        <div className="h-screen w-screen flex flex-col gap-4 justify-center items-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold">Stock not found</h1>
+            <p className="text-gray-500">
+              The stock ticker "{ticker}" could not be found.
+            </p>
+          </div>
+          <SearchForStock />
+        </div>
+      )}
+      {!isPageLoading && !noStockFoundError && (
         <div className="font-inter">
-          <MaxWidthWrapper className="py-4 border-b-1 w-full mb-8 ">
-            <nav className="font-inter flex justify-between items-center">
-              <a href="/">
-                <h1 className="font-bold text-2xl text-[#219ebc]">
-                  Stock Trader
-                </h1>
-              </a>
-              <Input placeholder="Search for stocks" className="w-[200px]" />
-            </nav>
+          <MaxWidthWrapper className="py-4 border-b-1 w-full mb-8">
+            <NavigationBar />
           </MaxWidthWrapper>
           <MaxWidthWrapper>
             <StockHeader
@@ -178,7 +192,8 @@ function App() {
                     <span>-</span>
                     <Input
                       type="number"
-                      min={0} // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      min={0}
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       onInput={(e: any) =>
                         (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
                       }
