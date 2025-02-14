@@ -9,16 +9,18 @@ type Props = {
 
 const StockHeader = ({
   className,
-  abbreviation,
+  ticker,
   closingPrice,
-  fullName,
+  stockName,
   preMarketPrice,
 }: BasicStockInfo & Props) => {
+  console.log(closingPrice);
+
   return (
     <div className={className}>
       <div className="flex flex-col items-start gap-2 md:items-center md:gap-4 md:flex-row">
-        <Tag label={abbreviation} />
-        <h1 className="font-medium uppercase text-4xl">{fullName}</h1>
+        <Tag label={ticker} />
+        <h1 className="font-medium uppercase text-4xl">{stockName}</h1>
       </div>
       <Separator className="my-2" />
       <div className="flex flex-col items-start gap-6 md:flex-row md:gap-12 md:items-center">
@@ -27,22 +29,20 @@ const StockHeader = ({
             numberIncrease={closingPrice.numberIncrease}
             percentageIncrease={closingPrice.percentageIncrease}
             price={closingPrice.price}
+            date={closingPrice.date}
           />
-          <label className="text-sm">
-            At close: February 10 at 4:00:01 PM EST
-          </label>{" "}
-          {/*TO:DO change with real values */}
+          <label className="text-sm">{closingPrice?.date}</label>
         </div>
         <div>
-          <StockPrice
-            numberIncrease={preMarketPrice.numberIncrease}
-            percentageIncrease={preMarketPrice.percentageIncrease}
-            price={preMarketPrice.price}
-          />
-          <label className="text-sm">
-            Pre-Market: February 10 at 4:00:01 PM EST
-          </label>{" "}
-          {/*TO:DO change with real values */}
+          {preMarketPrice && (
+            <StockPrice
+              numberIncrease={preMarketPrice.numberIncrease}
+              percentageIncrease={preMarketPrice.percentageIncrease}
+              price={preMarketPrice.price}
+              date={preMarketPrice.date}
+            />
+          )}
+          <label className="text-sm">{preMarketPrice?.date}</label>
         </div>
       </div>
     </div>
