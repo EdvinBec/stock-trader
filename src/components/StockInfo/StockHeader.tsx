@@ -14,8 +14,6 @@ const StockHeader = ({
   stockName,
   preMarketPrice,
 }: BasicStockInfo & Props) => {
-  console.log(closingPrice);
-
   return (
     <div className={className}>
       <div className="flex flex-col items-start gap-2 md:items-center md:gap-4 md:flex-row">

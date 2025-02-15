@@ -23,7 +23,6 @@ const PriceLineChart = ({
   )
     ? stockHistoricalPrices
     : [];
-  console.log(chartData);
 
   const filterData = (range: string) => {
     const endDate = new Date();
