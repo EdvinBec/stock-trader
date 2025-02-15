@@ -12,7 +12,7 @@ const StockPrice = ({
   return (
     <div>
       <div className="flex items-center gap-2">
-        <h2 className="text-4xl font-black">{price}</h2>
+        <h2 className="text-4xl font-black">${price}</h2>
         <h3
           className={`text-xl font-bold ${
             numberIncrease >= 0 ? "text-[#008000]" : "text-[#df2935]"
