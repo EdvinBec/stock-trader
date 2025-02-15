@@ -17,29 +17,24 @@ export type TabType = {
 };
 
 export type TabsState = {
-  tabs: TabType[]; // Array of open tabs
-  activeTabId: string | null; // ID of the currently active tab
-  status: "idle" | "loading" | "failed"; // Status for async operations
+  tabs: TabType[];
+  activeTabId: string | null;
 };
 
-// Define the initial value for the slice state
 const initialState: TabsState = {
   tabs: [],
   activeTabId: null,
-  status: "idle",
 };
 
 export const tabsSlice = createSlice({
   name: "tabs",
   initialState,
   reducers: {
-    // Add a new tab
     addTab: (state, action: PayloadAction<TabType>) => {
       const newTab = action.payload;
       state.tabs.push(newTab); // Add the new tab to the tabs array
       state.activeTabId = newTab.id; // Set the new tab as active
     },
-    // Remove a tab by its ID
     removeTab: (state, action: PayloadAction<string>) => {
       state.tabs = state.tabs.filter((tab) => tab.id !== action.payload);
 
@@ -65,12 +60,30 @@ export const tabsSlice = createSlice({
     setActiveTab: (state, action: PayloadAction<string>) => {
       state.activeTabId = action.payload;
     },
+
+    updateStockData(
+      state,
+      action: PayloadAction<{
+        tabId: string;
+        stockDetails: BasicStockInfo;
+        stockPrices: StockHistoricalPrices[];
+      }>
+    ) {
+      const tab = state.tabs.find((tab) => tab.id === action.payload.tabId);
+      if (tab) {
+        tab.stockDetails = action.payload.stockDetails;
+        tab.stockPrices = action.payload.stockPrices;
+      }
+    },
   },
 });
 
-// Export the generated action creators
-export const { addTab, removeTab, setActiveTab, setOptionsForTab } =
-  tabsSlice.actions;
+export const {
+  addTab,
+  removeTab,
+  setActiveTab,
+  setOptionsForTab,
+  updateStockData,
+} = tabsSlice.actions;
 
-// Export the slice reducer for use in the store configuration
 export default tabsSlice.reducer;

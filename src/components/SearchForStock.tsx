@@ -16,15 +16,17 @@ const SearchForStock = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const generateRandomId = () => {
-    return Math.random().toString(36).substring(2, 9); // Generates a random alphanumeric string
+    return Math.random().toString(36).substring(2, 9); // Generates a random string
   };
 
   const fetchData = async () => {
     try {
       setIsLoading(true);
       const [stockInfoResponse, historicalPricesResponse] = await Promise.all([
-        axios.get(`https://localhost:7067/api/stock/${searchInput}`),
-        axios.get(`https://localhost:7067/api/stock/${searchInput}/history`),
+        axios.get(`${import.meta.env.VITE_API_URL}/api/stock/${searchInput}`),
+        axios.get(
+          `${import.meta.env.VITE_API_URL}/api/stock/${searchInput}/history`
+        ),
       ]);
 
       const newTab: TabType = {
