@@ -44,7 +44,8 @@ In the root folder create `.env` file and enter the `VITE_API_URL`.\*
 By default, the backend runs on port `5074`. If your setup uses a different port, adjust accordingly.
 
 ```
-VITE_API_URL=http://localhost:5074 //CAUTION: Make sure that there is no slash at the end
+VITE_API_URL=http://localhost:5074 
+//CAUTION: Make sure that there is no slash at the end
 ```
 
 ### 3. Enter Alpha Vintage API key in `appsettings.json`
