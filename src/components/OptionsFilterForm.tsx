@@ -22,10 +22,13 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 import TooltipQuestionmark from "./TooltipQuestionmark";
+import { useForm } from "react-hook-form";
 
 const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
   const [optionsFilter, setOptionsFilter] = useState<OptionFilterCriteria>();
   const [isFetchingOptions, setIsFetchingOptions] = useState(false);
+
+  const { register } = useForm<OptionFilterCriteria>();
 
   const dispatch = useDispatch();
 
@@ -87,7 +90,10 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
   };
 
   return (
-    <div className="bg-white border-1 px-8 py-8 space-y-4 max-w-[350px] rounded-sm">
+    <form
+      onSubmit={(e) => e.preventDefault()}
+      className="bg-white border-1 px-8 py-8 space-y-4 max-w-[350px] rounded-sm"
+    >
       <div className="mb-4">
         <h2 className="font-bold font-inter text-lg">Stock options criteria</h2>
         <p className="text-gray-500 text-xs">
@@ -113,6 +119,8 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
         </div>
         <div className="col-span-3 flex items-center gap-2">
           <Input
+            {...(register("expirationMin"),
+            { required: true, min: 0, max: 180 })}
             type="number"
             min={0}
             step={1}
@@ -125,13 +133,11 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
                   } as OptionFilterCriteria)
               );
             }}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onInput={(e: any) =>
-              (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-            }
           />
           <span>-</span>
           <Input
+            {...(register("expirationMax"),
+            { required: true, min: 1, max: 180 })}
             type="number"
             min={0}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -169,6 +175,7 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
         </div>
         <div className="col-span-3 flex items-center gap-2">
           <Input
+            {...(register("deltaMin"), { required: true, min: -1, max: 1 })}
             type="number"
             step={0.1}
             onChange={(e) => {
@@ -183,6 +190,7 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
           />
           <span>-</span>
           <Input
+            {...(register("deltaMax"), { required: true, min: -1, max: 1 })}
             type="number"
             step={0.1}
             onChange={(e) => {
@@ -216,6 +224,7 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
           </TooltipProvider>
         </div>
         <Input
+          {...(register("premiumMin"), { required: true, min: 0 })}
           className="w-full col-span-3"
           onChange={(e) => {
             setOptionsFilter(
@@ -281,7 +290,7 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
           "Get stock options"
         )}
       </Button>
-    </div>
+    </form>
   );
 };
 
