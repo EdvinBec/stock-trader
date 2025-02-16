@@ -65,10 +65,10 @@ Go into `/api/appsettings.json` and replace `YOUR_API_KEY_GOES_HERE` with your a
 
 Firstly open the terminal and move into `/api` folder with next command `cd api`. Then type `dotnet restore` and press enter. After that type `dotnet watch run` and press enter to run the backend.
 
-### 4. Install node packages and run frontend
+### 5. Install node packages and run frontend
 
 Open **new terminal** in the **root** folder and type `npm install` and press enter. After it's finished installing type `npm run dev` and press enter to run the app.
 
-### 5. Open the app in the browser
+### 6. Open the app in the browser
 
 Typically Vite runs on [http:localhost:5173](http:localhost:5173)
