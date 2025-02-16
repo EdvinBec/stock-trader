@@ -281,6 +281,7 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
       </div>
 
       <Button
+        disabled={isFetchingOptions}
         onClick={fetchOptions}
         className="w-full mt-4 cursor-pointer rounded-sm"
       >

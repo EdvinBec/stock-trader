@@ -10,10 +10,10 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
+    options.AddPolicy("AllowAll",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173") // Allow requests from this origin
+            policy.AllowAnyOrigin() // Allow requests from any origin
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
@@ -40,7 +40,7 @@ builder.Services.AddSingleton<StockData>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
-app.UseCors("AllowSpecificOrigin");
+app.UseCors("AllowAll");
 
 // Configure the HTTPS request pipeline
 if (app.Environment.IsDevelopment())

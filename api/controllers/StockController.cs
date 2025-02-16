@@ -118,10 +118,10 @@ namespace api.controllers
                 {
                     var matchingOption = alphaApiOptions.FirstOrDefault(opt => opt.contractID == option.contractName);
 
-                    if (matchingOption != null)
+                    if (matchingOption != null && double.TryParse(matchingOption.delta, NumberStyles.Float, CultureInfo.InvariantCulture, out double convertedDelta))
                     {
-                        double convertedDelta = double.Parse(matchingOption.delta) / 100000;
-                        option.delta = convertedDelta.ToString();
+                        // Format without scientific notation, keeping precision when needed
+                        option.delta = convertedDelta.ToString("0.######", CultureInfo.InvariantCulture);
 
                         if (convertedDelta < deltaMin || convertedDelta > deltaMax)
                         {
@@ -129,6 +129,8 @@ namespace api.controllers
                         }
                     }
                 }
+
+
                 List<StockOption> allOptions = stockOptions;
 
                 return Ok(new { ticker, allOptions });

@@ -95,7 +95,7 @@ const OptionsTable = ({
                   <TableCell>{option.expirationDate}</TableCell>
                   <TableCell>{option.strikePrice}</TableCell>
                   <TableCell>${option.premium.toFixed(2)}</TableCell>
-                  <TableCell>{option.delta}</TableCell>
+                  <TableCell>{Number(option.delta).toFixed(3)}</TableCell>
                   <TableCell>{option.iv}</TableCell>
                   <TableCell>{option.roi}</TableCell>
                   <TableCell
