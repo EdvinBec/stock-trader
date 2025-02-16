@@ -1,50 +1,73 @@
-# React + TypeScript + Vite
+# Stock Trader
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Overview
 
-Currently, two official plugins are available:
+A stock trader is web application that fetches real-time stock prices, options data, and market trends
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+It collects data from Yahoo Finance and itegrates Alpha Vintage APIto provide stock details and option trading insights
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Retrieve stock options with expiration, delta, premium and option type filtering
 
-- Configure the top-level `parserOptions` property like this:
+- Integrate data from Yahoo Finance and Alpha Vintage API
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- Analyze historical stock prices through chart
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React, TailwindCSS, TypeScript, Redux
+
+- **Backend:** ASP.NET Core, C#
+
+- **API's:** Alpha Vintages
+
+## Requirements
+
+- NodeJS runtime
+- ASP.NET for web development
+
+## ⚙️ Installation & Setup
+
+### 1️ Clone the Repository
+
+```sh
+git clone git@github.com:EdvinBec/stock-trader.git
+
+cd stock-trader
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 2. Create a `.env` File and Set the Backend URL
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+In the root folder create `.env` file and enter the `VITE_API_URL`.\*
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+By default, the backend runs on port `5074`. If your setup uses a different port, adjust accordingly.
+
 ```
+VITE_API_URL=http://localhost:5074 //CAUTION: Make sure that there is no slash at the end
+```
+
+### 3. Enter Alpha Vintage API key in `appsettings.json`
+
+Go into `/api/appsettings.json` and replace `YOUR_API_KEY_GOES_HERE` with your actual API key, that you can get here https://www.alphavantage.co/support/#api-key
+
+```
+.
+.
+"AlphaVintage":  {
+"BaseURL":  "https://www.alphavantage.co",
+"ApiKey":  "YOUR_API_KEY_GOES_HERE"
+}
+```
+
+### 4. Install needed packages and run the backend
+
+Firstly open the terminal and move into `/api` folder with next command `cd api`. Then type `dotnet restore` and press enter. After that type `dotnet watch run` and press enter to run the backend.
+
+### 4. Install node packages and run frontend
+
+Open **new terminal** in the **root** folder and type `npm install` and press enter. After it's finished installing type `npm run dev` and press enter to run the app.
+
+### 5. Open the app in the browser
+
+Typically Vite runs on [http:localhost:5173](http:localhost:5173)
