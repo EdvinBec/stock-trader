@@ -32,7 +32,11 @@ const Tab = ({
         onClick={() => dispatch(setActiveTab(tabId))}
         className="flex items-center gap-4 cursor-default h-full py-2"
       >
-        <span className={`text-xs ${isActive ? "font-bold" : "font-medium"}`}>
+        <span
+          className={`text-xs uppercase ${
+            isActive ? "font-bold" : "font-medium"
+          }`}
+        >
           {ticker}
         </span>
         <span className={`text-xs ${isActive && "font-bold"}`}>

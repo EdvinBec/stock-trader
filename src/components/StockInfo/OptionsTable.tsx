@@ -7,6 +7,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { StockOption } from "./stock.types";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import TooltipQuestionmark from "../TooltipQuestionmark";
 
 const OptionsTable = ({
   className,
@@ -46,7 +53,27 @@ const OptionsTable = ({
                 <TableHead>Expiration date</TableHead>
                 <TableHead>Strike price</TableHead>
                 <TableHead>Premium</TableHead>
-                <TableHead>Delta</TableHead>
+                <TableHead>
+                  <div className="flex items-center">
+                    <span>Delta</span>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger className="ml-4">
+                          <TooltipQuestionmark />
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-[200px]">
+                          <p className="text-xs">
+                            Delta is the theoretical estimate of how much an
+                            option's value may change given a $1 move UP or DOWN
+                            in the underlying security. <br /> <br /> CAUTION:
+                            Delta might not be displayed due to 25 calls per day
+                            API limit.
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                </TableHead>
                 <TableHead>IV</TableHead>
                 <TableHead>Yearly ROI</TableHead>
                 <TableHead className="text-right">Type</TableHead>

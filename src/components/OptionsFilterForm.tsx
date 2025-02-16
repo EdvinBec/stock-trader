@@ -15,10 +15,20 @@ import { useState } from "react";
 import axios from "axios";
 import { setOptionsForTab, TabType } from "@/redux/features/tabsSlice";
 import { useDispatch } from "react-redux";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
+import TooltipQuestionmark from "./TooltipQuestionmark";
+import { useForm } from "react-hook-form";
 
 const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
   const [optionsFilter, setOptionsFilter] = useState<OptionFilterCriteria>();
   const [isFetchingOptions, setIsFetchingOptions] = useState(false);
+
+  const { register } = useForm<OptionFilterCriteria>();
 
   const dispatch = useDispatch();
 
@@ -80,7 +90,10 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
   };
 
   return (
-    <div className="bg-white border-1 px-8 py-8 space-y-4 max-w-[350px] rounded-sm">
+    <form
+      onSubmit={(e) => e.preventDefault()}
+      className="bg-white border-1 px-8 py-8 space-y-4 max-w-[350px] rounded-sm"
+    >
       <div className="mb-4">
         <h2 className="font-bold font-inter text-lg">Stock options criteria</h2>
         <p className="text-gray-500 text-xs">
@@ -88,9 +101,26 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
         </p>
       </div>
       <div className="w-full grid grid-cols-5 items-center gap-2">
-        <Label className="col-span-2">Expiration range</Label>
+        <div className="flex items-center col-span-2">
+          <Label>Expiration range</Label>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger className="ml-4">
+                <TooltipQuestionmark />
+              </TooltipTrigger>
+              <TooltipContent className="max-w-[200px]">
+                <p className="text-xs">
+                  Enter the minimum and maximum number of days until the option
+                  expires.
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
         <div className="col-span-3 flex items-center gap-2">
           <Input
+            {...(register("expirationMin"),
+            { required: true, min: 0, max: 180 })}
             type="number"
             min={0}
             step={1}
@@ -103,13 +133,11 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
                   } as OptionFilterCriteria)
               );
             }}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onInput={(e: any) =>
-              (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-            }
           />
           <span>-</span>
           <Input
+            {...(register("expirationMax"),
+            { required: true, min: 1, max: 180 })}
             type="number"
             min={0}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -130,11 +158,26 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
       </div>
 
       <div className="w-full grid grid-cols-5 items-center gap-2">
-        <Label className="col-span-2">Delta range</Label>
+        <div className="flex items-center col-span-2">
+          <Label>Delta range</Label>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger className="ml-4">
+                <TooltipQuestionmark />
+              </TooltipTrigger>
+              <TooltipContent className="max-w-[200px]">
+                <p className="text-xs">
+                  Enter the minimum and maximum delta from -1 to 1.
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
         <div className="col-span-3 flex items-center gap-2">
           <Input
+            {...(register("deltaMin"), { required: true, min: -1, max: 1 })}
             type="number"
-            step={1}
+            step={0.1}
             onChange={(e) => {
               setOptionsFilter(
                 (prevCriteria) =>
@@ -147,7 +190,9 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
           />
           <span>-</span>
           <Input
+            {...(register("deltaMax"), { required: true, min: -1, max: 1 })}
             type="number"
+            step={0.1}
             onChange={(e) => {
               setOptionsFilter(
                 (prevCriteria) =>
@@ -162,8 +207,24 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
       </div>
 
       <div className="w-full grid grid-cols-5 items-center gap-2">
-        <Label className="col-span-2">Premium minimum</Label>
+        <div className="flex items-center col-span-2">
+          <Label>Premium minimum</Label>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger className="ml-4">
+                <TooltipQuestionmark />
+              </TooltipTrigger>
+              <TooltipContent className="max-w-[200px]">
+                <p className="text-xs">
+                  Enter the minimum price paid by an investor to buy or sell an
+                  option in the derivatives market.
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
         <Input
+          {...(register("premiumMin"), { required: true, min: 0 })}
           className="w-full col-span-3"
           onChange={(e) => {
             setOptionsFilter(
@@ -177,7 +238,24 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
         />
       </div>
       <div className="fw-full grid grid-cols-5 items-center gap-2">
-        <Label className="col-span-2">Option type</Label>
+        <div className="flex items-center col-span-2">
+          <Label>Option type</Label>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger className="ml-4">
+                <TooltipQuestionmark />
+              </TooltipTrigger>
+              <TooltipContent className="max-w-[200px]">
+                <p className="text-xs">
+                  Call options provide the right to buy an asset at a specific
+                  price within a set time frame. Put options give the opposite
+                  right—to sell an asset at a specific price within a given
+                  period.
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
         <div className="w-full col-span-3">
           <Select
             onValueChange={(e: "CALL" | "BOTH" | "PUT") => {
@@ -212,7 +290,7 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
           "Get stock options"
         )}
       </Button>
-    </div>
+    </form>
   );
 };
 
