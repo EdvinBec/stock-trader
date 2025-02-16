@@ -35,11 +35,22 @@ namespace api.controllers
                 var htmlDoc = new HtmlDocument();
                 htmlDoc.LoadHtml(htmlResponse);
 
+                if (htmlDoc.DocumentNode == null)
+                {
+                    return NotFound(new { error = "Failed to load HTML document." });
+                }
+
                 //It finds the nodes based on their data-testId
                 var closeMarketPriceData = _stockData.GetStockPriceDetails(htmlDoc, new string[] { "qsp-price" }, new string[] { "qsp-price-change" }, new string[] { "qsp-price-change-percent" }, "//div[@slot='marketTimeNotice' and contains(@class, 'marketTime')]//span[contains(@class, 'yf-vednlp')]//span[contains(@class, 'yf-ipw1h0')]");
                 var preMarketPriceData = _stockData.GetStockPriceDetails(htmlDoc, new string[] { "qsp-post-price", "qsp-pre-price" }, new string[] { "qsp-post-price-change", "qsp-pre-price-change" }, new string[] { "qsp-post-price-change-percent", "qsp-pre-price-change-percent" }, "//div[@slot='marketTimeNotice' and not(contains(@class, 'marketTime'))]//span[contains(@class, 'yf-vednlp')]//span[contains(@class, 'yf-ipw1h0')]");
 
-                var stockName = htmlDoc.DocumentNode.SelectSingleNode("//h1[contains(@class, 'yf-xxbei9')]").InnerText.Trim();
+                var stockNameNode = htmlDoc.DocumentNode.SelectSingleNode("//h1[contains(@class, 'yf-xxbei9')]");
+                if (stockNameNode == null)
+                {
+                    return NotFound(new { error = "Stock name not found in the HTML document." });
+                }
+
+                string stockName = stockNameNode.InnerText.Trim();
 
                 if (closeMarketPriceData == null || stockName == null)
                 {
