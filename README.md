@@ -42,7 +42,7 @@ It collects data from Yahoo Finance and integrates Alpha Vintage API to provide 
 ### 1️ Clone the Repository
 
 ```sh
-git clone git@github.com:EdvinBec/stock-trader.git
+git clone https://github.com/EdvinBec/stock-trader.git
 
 cd stock-trader
 ```
