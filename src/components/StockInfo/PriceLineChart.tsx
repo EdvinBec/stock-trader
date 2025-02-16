@@ -32,10 +32,12 @@ const PriceLineChart = ({
     else if (range === "1m") startDate.setMonth(endDate.getMonth() - 1);
     else if (range === "6m") startDate.setMonth(endDate.getMonth() - 6);
 
-    return chartData.filter(
-      (data) =>
-        new Date(data.date) >= startDate && new Date(data.date) <= endDate
-    );
+    return chartData
+      .filter(
+        (data) =>
+          new Date(data.date) >= startDate && new Date(data.date) <= endDate
+      )
+      .reverse();
   };
 
   const filteredData = filterData(timeRange);
