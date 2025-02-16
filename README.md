@@ -22,6 +22,16 @@ It collects data from Yahoo Finance and integrates Alpha Vintage API to provide 
 
 - **API's:** Alpha Vintages
 
+
+## 📌 API Endpoints
+
+| Method | Endpoint | Description | Query Params | Example |
+|--------|---------|-------------|--------------|---------|
+| **GET** | `/api/stock/{ticker}` | Get stock details for a given ticker | N/A | `/api/stock/AAPL` |
+| **GET** | `/api/stock/{ticker}/options` | Fetch stock options based on filters | `expirationMin`, `expirationMax`, `deltaMin`, `deltaMax`, `minPremium` | `/api/stock/nvda/options?expirationMin=1&expirationMax=8&deltaMin=-0.6&deltaMax=1&optionType=both&minPremium=10` |
+| **GET** | `/api/stock/{ticker}/historical` | Retrieve historical price data | N/A | `/api/stock/AAPL/historical` |
+
+
 ## Requirements
 
 - NodeJS runtime
