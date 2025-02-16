@@ -4,7 +4,7 @@
 
 A stock trader is web application that fetches real-time stock prices, options data, and market trends
 
-It collects data from Yahoo Finance and itegrates Alpha Vintage APIto provide stock details and option trading insights
+It collects data from Yahoo Finance and integrates Alpha Vintage API to provide stock details and option trading insights
 
 ## 🚀 Features
 
