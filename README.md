@@ -4,7 +4,7 @@
 
 A stock trader is web application that fetches real-time stock prices, options data, and market trends
 
-It collects data from Yahoo Finance and itegrates Alpha Vintage APIto provide stock details and option trading insights
+It collects data from Yahoo Finance and integrates Alpha Vintage API to provide stock details and option trading insights
 
 ## 🚀 Features
 
@@ -21,6 +21,16 @@ It collects data from Yahoo Finance and itegrates Alpha Vintage APIto provide st
 - **Backend:** ASP.NET Core, C#
 
 - **API's:** Alpha Vintages
+
+
+## 📌 API Endpoints
+
+| Method | Endpoint | Description | Query Params | Example |
+|--------|---------|-------------|--------------|---------|
+| **GET** | `/api/stock/{ticker}` | Get stock details for a given ticker | N/A | `/api/stock/AAPL` |
+| **GET** | `/api/stock/{ticker}/options` | Fetch stock options based on filters | `expirationMin`, `expirationMax`, `deltaMin`, `deltaMax`, `minPremium` | `/api/stock/nvda/options?expirationMin=1&expirationMax=8&deltaMin=-0.6&deltaMax=1&optionType=both&minPremium=10` |
+| **GET** | `/api/stock/{ticker}/historical` | Retrieve historical price data | N/A | `/api/stock/AAPL/historical` |
+
 
 ## Requirements
 
@@ -44,7 +54,8 @@ In the root folder create `.env` file and enter the `VITE_API_URL`.\*
 By default, the backend runs on port `5074`. If your setup uses a different port, adjust accordingly.
 
 ```
-VITE_API_URL=http://localhost:5074 //CAUTION: Make sure that there is no slash at the end
+VITE_API_URL=http://localhost:5074 
+//CAUTION: Make sure that there is no slash at the end
 ```
 
 ### 3. Enter Alpha Vintage API key in `appsettings.json`
@@ -64,10 +75,10 @@ Go into `/api/appsettings.json` and replace `YOUR_API_KEY_GOES_HERE` with your a
 
 Firstly open the terminal and move into `/api` folder with next command `cd api`. Then type `dotnet restore` and press enter. After that type `dotnet watch run` and press enter to run the backend.
 
-### 4. Install node packages and run frontend
+### 5. Install node packages and run frontend
 
 Open **new terminal** in the **root** folder and type `npm install` and press enter. After it's finished installing type `npm run dev` and press enter to run the app.
 
-### 5. Open the app in the browser
+### 6. Open the app in the browser
 
 Typically Vite runs on [http:localhost:5173](http:localhost:5173)
