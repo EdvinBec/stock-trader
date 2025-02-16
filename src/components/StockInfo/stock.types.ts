@@ -33,6 +33,8 @@ export type StockOption = {
 export type OptionFilterCriteria = {
   expirationMin: number;
   expirationMax: number;
+  deltaMin: number;
+  deltaMax: number;
   premiumMin: number;
   optionType: "call" | "put" | "both";
 };

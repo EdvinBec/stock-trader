@@ -30,13 +30,21 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
         return;
       }
 
-      const { expirationMin, expirationMax, optionType, premiumMin } =
-        optionsFilter;
+      const {
+        expirationMin,
+        expirationMax,
+        optionType,
+        premiumMin,
+        deltaMax,
+        deltaMin,
+      } = optionsFilter;
 
       // Validate required fields
       if (
         expirationMin === undefined ||
         expirationMax === undefined ||
+        deltaMax === undefined ||
+        deltaMin === undefined ||
         !optionType
       ) {
         toast("Missing required option filter criteria");
@@ -53,7 +61,7 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/stock/${
           activeTab.ticker
-        }/options?expirationMin=${expirationMin}&expirationMax=${expirationMax}&optionType=${optionType}&minPremium=${
+        }/options?expirationMin=${expirationMin}&expirationMax=${expirationMax}&deltaMin=${deltaMin}&deltaMax=${deltaMax}&optionType=${optionType}&minPremium=${
           premiumMin ?? 0
         }` // Default minPremium to 0 if undefined
       );
@@ -114,6 +122,38 @@ const OptionsFilterForm = ({ activeTab }: { activeTab: TabType }) => {
                   ({
                     ...prevCriteria,
                     expirationMax: Number(e.target.value),
+                  } as OptionFilterCriteria)
+              );
+            }}
+          />
+        </div>
+      </div>
+
+      <div className="w-full grid grid-cols-5 items-center gap-2">
+        <Label className="col-span-2">Delta range</Label>
+        <div className="col-span-3 flex items-center gap-2">
+          <Input
+            type="number"
+            step={1}
+            onChange={(e) => {
+              setOptionsFilter(
+                (prevCriteria) =>
+                  ({
+                    ...prevCriteria,
+                    deltaMin: Number(e.target.value),
+                  } as OptionFilterCriteria)
+              );
+            }}
+          />
+          <span>-</span>
+          <Input
+            type="number"
+            onChange={(e) => {
+              setOptionsFilter(
+                (prevCriteria) =>
+                  ({
+                    ...prevCriteria,
+                    deltaMax: Number(e.target.value),
                   } as OptionFilterCriteria)
               );
             }}
