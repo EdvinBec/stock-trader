@@ -5,6 +5,8 @@ using HtmlAgilityPack;
 using api.models;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Text.Json;
+using System.Globalization;
+
 
 namespace api.controllers
 {
@@ -118,7 +120,7 @@ namespace api.controllers
 
                     if (matchingOption != null)
                     {
-                        double convertedDelta = double.Parse(matchingOption.delta) / 100000;
+                        double convertedDelta = double.Parse(matchingOption.delta, CultureInfo.InvariantCulture) / 100000;
                         option.delta = convertedDelta.ToString();
 
                         if (convertedDelta < deltaMin || convertedDelta > deltaMax)
